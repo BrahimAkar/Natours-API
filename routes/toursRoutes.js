@@ -1,4 +1,8 @@
+const express = require("express");
+const app = express();
 const fs = require("fs");
+const router = express.Router();
+
 
 const tours = JSON.parse(fs.readFileSync(`./dev-data/data/tours-simple.json`));
 
@@ -23,7 +27,7 @@ const createTour = (req, res) => {
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
-    (error) => {}
+    (error) => { }
   );
   // console.log(newArray);
   res.send({
@@ -37,10 +41,10 @@ const updateTour = (req, res) => {
   const item = tours.find((el) => el.id === id);
   item
     ? res.send({
-        success: true,
-        message: "time updated successfully",
-        data: item,
-      })
+      success: true,
+      message: "time updated successfully",
+      data: item,
+    })
     : res.send({ success: false, message: "we can't find this item" });
 };
 const deleteTour = (req, res) => {
@@ -48,10 +52,20 @@ const deleteTour = (req, res) => {
   const item = tours.find((el) => el.id === id);
   item
     ? res.send({
-        success: true,
-        message: "item deleted successfully",
-      })
+      success: true,
+      message: "item deleted successfully",
+    })
     : res.send({ success: false, message: "we can't find this item" });
 };
 
-module.exports = { getAllTours, getTour, createTour, updateTour, deleteTour };
+
+
+
+router.route("/").get(getAllTours).post(createTour);
+router
+  .route("/:id")
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
+
+module.exports = router;
