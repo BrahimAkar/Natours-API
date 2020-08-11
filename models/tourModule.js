@@ -145,6 +145,7 @@ tourShema.pre(/^find/, function(next) {
 });
 
 tourShema.post(/^find/, function(docs, next) {
+  
   console.log(docs);
   next();
 });
