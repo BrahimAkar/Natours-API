@@ -1,71 +1,31 @@
-const express = require("express");
-const app = express();
-const fs = require("fs");
+const express = require('express');
+
 const router = express.Router();
+const tourController = require('../controllers/tourController');
+const authController = require('../controllers/authController');
 
-
-const tours = JSON.parse(fs.readFileSync(`./dev-data/data/tours-simple.json`));
-
-const getAllTours = (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: tours,
-  });
-};
-
-const getTour = (req, res) => {
-  const id = req.params.id * 1;
-  const item = tours.find((el) => el.id === id);
-  item ? res.send(item) : res.send({ success: false });
-};
-
-const createTour = (req, res) => {
-  const id = tours[tours.length - 1].id + 1;
-  const newArray = Object.assign({ id: id }, req.body);
-  tours.push(newArray);
-  console.log(tours);
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
-    (error) => { }
-  );
-  // console.log(newArray);
-  res.send({
-    success: true,
-    data: req.body,
-  });
-};
-
-const updateTour = (req, res) => {
-  const id = req.params.id * 1;
-  const item = tours.find((el) => el.id === id);
-  item
-    ? res.send({
-      success: true,
-      message: "time updated successfully",
-      data: item,
-    })
-    : res.send({ success: false, message: "we can't find this item" });
-};
-const deleteTour = (req, res) => {
-  const id = req.params.id * 1;
-  const item = tours.find((el) => el.id === id);
-  item
-    ? res.send({
-      success: true,
-      message: "item deleted successfully",
-    })
-    : res.send({ success: false, message: "we can't find this item" });
-};
-
-
-
-
-router.route("/").get(getAllTours).post(createTour);
 router
-  .route("/:id")
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
+  .route('/')
+  .get(authController.protect, tourController.getAllTours)
+  .post(tourController.createTour);
+
+router.route('/tour-stats').get(tourController.getTourStats);
+router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+
+router
+  .route('/top-5-cheap')
+  .get(tourController.aliasTopTours, tourController.getAllTours);
+
+router.route('/getalltests').get(tourController.getAllTests);
+
+router
+  .route('/:id')
+  .get(tourController.getTour)
+  .patch(tourController.updateTour)
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.deleteTour
+  );
 
 module.exports = router;

@@ -1,40 +1,37 @@
-const express = require("express");
-const app = express();
+const express = require('express');
+
+const {
+  createUser,
+  deleteUser,
+  updateUser,
+  getAllUsers,
+  getUser
+} = require('../controllers/userController');
 
 const route = express.Router();
+const authController = require('./../controllers/authController');
 
+route.post('/signup', authController.signup);
+route.post('/login', authController.login);
 
-
-let log = console.log;
-
-const createUser = (req, res) => {
-    log("create User");
-};
-const getAllUsers = (req, res) => {
-    res.send({
-        message: "get all users"
-    })
-    log("get all Users");
-};
-const getUser = (req, res) => {
-    log("Get Specific User");
-};
-const updateUser = (req, res) => {
-    log("update User");
-};
-const deleteUser = (req, res) => {
-    log("delete User");
-};
+route.post('/forgotpassword', authController.forgotpassword);
+route.patch('/resetpassword/:token', authController.resetpassword);
+route.patch(
+  '/updatepassword',
+  authController.protect,
+  authController.updatePassword
+);
+route.patch('/updateMe', authController.protect, authController.updateMe);
+route.delete('/deleteMe', authController.protect, authController.deleteMe);
+route
+  .route('/')
+  .get(getAllUsers)
+  .post(createUser);
 
 route
-    .route("/")
-    .get(getAllUsers)
-    .post(createUser);
-
-route
-    .route("/:id")
-    .get(getUser)
-    .patch(updateUser)
-    .delete(deleteUser);
+  .route('/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 module.exports = route;

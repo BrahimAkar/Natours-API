@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.6.2/tailwind.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-400">
+    <div class="flex justify-center items-center h-screen">
+      <div class="bg-white rounded-lg lg:w-1/4 h-auto sm:w-full">
+        <h3 class="p-4 bg-gray-300 rounded-t-lg"><%= name.name %></h3>
+        <!-- ! second  -->
+        <div class="p-4 flex justify-between items-center border-b-2">
+          <% if(name.approved){ %>
+          <span
+            class="select-none bg-green-700 p-2 rounded-full text-white uppercase text-xs font-bold"
+            >APPROVED</span
+          >
+          <% } else{ %>
+          <span
+            class="select-none bg-red-700 p-2 rounded-full text-white uppercase text-xs font-bold"
+            >BANNED</span
+          >
+          <% } %>
+
+          <span><%= name.birthay %></span>
+        </div>
+        <!-- ! Third -->
+        <div class="p-4 flex justify-center">
+          <span class="bg-gray-200 p-4 rounded"><%= name.description %></span>
+        </div>
+        <!-- ! Fourth -->
+        <div
+          class="p-4 flex justify-start text-xs text-gray-700 font-bold bg-gray-200"
+        >
+          <span class="">EMPLOYEE</span>
+        </div>
+        <div class="p-6 flex bg-gray-200">
+          <span
+            style="background-image: url('<%= name.img %>')"
+            class="bg-cover bg-center rounded-full text-xs bg-blue-700 font-bold w-12 h-12 p-4 text-white"
+          ></span>
+          <div class="ml-3">
+            <div class="font-bold"><%= name.name %></div>
+            <div><%= name.job %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
