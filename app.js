@@ -11,6 +11,7 @@ const morgan = require('morgan');
 
 const tourRouter = require('./routes/toursRoutes');
 const userRouter = require('./routes/usersRoutes');
+const reviewRouter = require('./routes/reviewsRoutes');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
@@ -54,6 +55,7 @@ app.use(
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/reviews', reviewRouter);
 
 app.set('views', './views');
 app.set('view engine', 'ejs');

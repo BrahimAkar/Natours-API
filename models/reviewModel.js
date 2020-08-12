@@ -13,30 +13,42 @@ mongoose
     useFindAndModify: false
   })
   .then();
-const reviewShema = new mongoose.Schema({
-  review: {
-    type: String
+const reviewShema = new mongoose.Schema(
+  {
+    review: {
+      type: String,
+      required: [true, 'Review cannot be empty']
+    },
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now()
+    },
+    tour: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Tour',
+      required: [true, 'Review must be long to a tour']
+    },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Review must be long to a user']
+    }
   },
-  rating: {
-    type: Number
-  },
-  createdAt: {
-    type: Date.now()
-  },
-  tour: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Tour'
-  },
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User'
+  {
+    // make sure when we have a virtual property, show it as output
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
-});
+);
 
-tourShema.pre(/^find/, function(next) {
-  this.populate({
-    path: 'user'
-  });
+reviewShema.pre(/^find/, function(next) {
+  this.populate('tour').populate('user');
+
   next();
 });
 
