@@ -1,8 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
-'use strict';
-var colors = require('colors/safe');
-
 const Tour = require('./../models/tourModule');
 const Test = require('./../models/testingModel');
 const ApiFeatures = require('../utils/apiFeatures');
@@ -48,11 +43,21 @@ const getAllTours = catchAsync(async (req, res, next) => {
   });
 });
 const getTour = catchAsync(async (req, res, next) => {
-  const data = await Tour.findById(req.params.id);
-  if (!data) {
-    return next(new appError('no tour found for this id', '404'));
+  const tour = await Tour.findById(req.params.id).populate({
+    path: 'reviewat'
+  });
+  // Tour.findOne({ _id: req.params.id })
+
+  if (!tour) {
+    return next(new AppError('No tour found with that ID', 404));
   }
-  res.send({ data });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour
+    }
+  });
 });
 
 const createTour = catchAsync(async (req, res, next) => {

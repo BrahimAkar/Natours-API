@@ -13,9 +13,17 @@ mongoose
     useFindAndModify: false
   })
   .then();
+mongoose.set('debug', function(coll, method, query, doc) {
+  //do your thing
+  console.log(query);
+  console.log(coll);
+  console.log(method);
+  console.log(doc);
+});
 
 const tourShema = new mongoose.Schema(
   {
+    _id: String,
     name: {
       type: String,
       required: [true, 'Please add a tour name'],
@@ -122,6 +130,14 @@ tourShema.virtual('durationweeks').get(function() {
   return this.duration / 7;
 });
 
+// ! Virtual Populate:
+
+tourShema.virtual('reviewat', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id'
+});
+
 // ! Document middlware
 tourShema.pre('save', function(next) {
   this.slug = slugify(this.name, {
@@ -145,8 +161,7 @@ tourShema.pre(/^find/, function(next) {
 });
 
 tourShema.post(/^find/, function(docs, next) {
-  
-  console.log(docs);
+  // console.log(docs);
   next();
 });
 
