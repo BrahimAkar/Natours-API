@@ -8,8 +8,7 @@ const { type } = require('os');
 
 dotenv.config({ path: './../config.env' });
 
-const DB =
-  'mongodb+srv://brahim123:brahim123@cluster0-gvzjk.mongodb.net/natours?retryWrites=true&w=majority';
+const DB = `mongodb+srv://${process.env.DATABASE_PASSWORD}:${process.env.DATABASE_PASSWORD}@cluster0-gvzjk.mongodb.net/natours?retryWrites=true&w=majority`;
 
 mongoose
   .connect(DB, {
