@@ -12,12 +12,10 @@ const getAllReviews = catchAsync(async (req, res, next) => {
 });
 
 const createReview = catchAsync(async (req, res, next) => {
-  await Review.create({
-    review: req.body.review,
-    rating: req.body.rating,
-    user: req.user._id,
-    tour: req.body.tour
-  });
+  if (!req.body.tour) req.body.tour = req.params.tourId;
+  if (!req.body.user) req.body.user = req.user.id;
+
+  await Review.create(req.body);
 
   res.status(200).send({
     status: 'success'
