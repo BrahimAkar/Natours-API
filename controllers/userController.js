@@ -17,9 +17,9 @@ const getAllUsers = async (req, res, next) => {
 const getUser = (req, res) => {
   console.log('Get Specific User');
 };
-const updateUser = (req, res) => {
-  console.log('update User');
-};
+
+// DO NOT UPDATE PASSOWORD WITH THIS
+const updateUser = factory.updateOne(User);
 const deleteUser = factory.deleteOne(User);
 
 module.exports = { createUser, deleteUser, updateUser, getAllUsers, getUser };

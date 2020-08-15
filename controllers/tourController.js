@@ -71,19 +71,8 @@ const createTour = catchAsync(async (req, res, next) => {
   });
 });
 
-const updateTour = catchAsync(async (req, res, next) => {
-  const id = req.params.id * 1;
-  const item = tours.find(el => el.id === id);
-  item
-    ? res.send({
-        success: true,
-        message: 'time updated successfully',
-        data: item
-      })
-    : res.send({ success: false, message: "we can't find this item" });
-});
-
 const deleteTour = factory.deleteOne(Tour);
+const updateTour = factory.updateOne(Tour);
 
 const getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = '2020'; // 2021
