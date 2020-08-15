@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 const slugify = require('slugify');
 const validator = require('validator');
 var bcrypt = require('bcryptjs');
-const { type } = require('os');
 
 dotenv.config({ path: './../config.env' });
 

@@ -1,4 +1,5 @@
 const User = require('./../models/userModel');
+const factory = require('./handlerFactory');
 
 const createUser = (req, res) => {
   console.log('create User');
@@ -19,8 +20,6 @@ const getUser = (req, res) => {
 const updateUser = (req, res) => {
   console.log('update User');
 };
-const deleteUser = (req, res) => {
-  console.log('delete User');
-};
+const deleteUser = factory.deleteOne(User);
 
 module.exports = { createUser, deleteUser, updateUser, getAllUsers, getUser };
