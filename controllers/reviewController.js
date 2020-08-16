@@ -27,7 +27,7 @@ const createReview = catchAsync(async (req, res, next) => {
     status: 'success'
   });
 });
-
+const updateReview = factory.updateOne(Review);
 const deleteReview = factory.deleteOne(Review);
 
-module.exports = { getAllReviews, createReview, deleteReview };
+module.exports = { getAllReviews, createReview, deleteReview, updateReview };
