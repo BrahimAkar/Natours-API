@@ -10,19 +10,23 @@ const {
 
 const route = express.Router();
 const authController = require('./../controllers/authController');
+const userController = require('../controllers/userController');
 
 route.post('/signup', authController.signup);
 route.post('/login', authController.login);
-
 route.post('/forgotpassword', authController.forgotpassword);
 route.patch('/resetpassword/:token', authController.resetpassword);
-route.patch(
-  '/updatepassword',
-  authController.protect,
-  authController.updatePassword
-);
-route.patch('/updateMe', authController.protect, authController.updateMe);
-route.delete('/deleteMe', authController.protect, authController.deleteMe);
+
+// This midllware makes sure that user is authenticated
+route.use(authController.protect);
+
+route.patch('/updatepassword', authController.updatePassword);
+route.patch('/updateMe', userController.updateMe);
+route.delete('/deleteMe', userController.deleteMe);
+route.get('/me', userController.getMe, userController.getUser);
+
+route.use(authController.restrictTo('admin'));
+
 route
   .route('/')
   .get(getAllUsers)

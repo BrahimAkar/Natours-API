@@ -64,7 +64,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log("i'm here");
+  console.log("i'm here in protect");
   // ! 1) Getting token and check if its there
   // 1) Getting token and check of it's there
   let token;
@@ -83,7 +83,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // ! 2) Verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  
+
   // ! 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
 
@@ -192,47 +192,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   res.send({
     message: 'OK'
-  });
-});
-
-exports.updateMe = catchAsync(async (req, res, next) => {
-  if (req.body.password || req.body.passwordConfirm)
-    return next(
-      new AppError(
-        'This route is not for password updates, Please use /updatePassword',
-        400
-      )
-    );
-
-  // ! Function to filter :
-  const filterObj = (obj, ...allowedFields) => {
-    const newObj = {};
-    Object.keys(obj).forEach(el => {
-      if (allowedFields.includes(el)) {
-        newObj[el] = obj[el];
-      }
-    });
-    return newObj;
-  };
-  // filtered out unwanted fields names that are not allowed to be updated
-  const filtredBody = filterObj(req.body, 'name', 'email');
-  const updatedUser = await User.findByIdAndUpdate(req.user.id, filtredBody, {
-    new: true,
-    runValidators: true
-  });
-
-  res.status(200).send({
-    status: 'success',
-    data: {
-      user: updatedUser
-    }
-  });
-});
-
-exports.deleteMe = catchAsync(async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user.id, { active: false });
-  res.status(204).json({
-    status: 'Success',
-    data: null
   });
 });
