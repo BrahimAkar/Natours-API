@@ -29,48 +29,9 @@ const getAllTests = catchAsync(async (req, res, next) => {
   });
 });
 
-const getAllTours = catchAsync(async (req, res, next) => {
-  // Execute Query
-  const features = new ApiFeatures(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .pagination();
-  const tours = await features.query;
-  res.status(201).json({
-    status: 'Success',
-    resuluts: tours.length,
-    data: { tours }
-  });
-});
-const getTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.id).populate({
-    path: 'reviews'
-  });
-  // Tour.findOne({ _id: req.params.id })
-
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour
-    }
-  });
-});
-
-const createTour = catchAsync(async (req, res, next) => {
-  const newTour = await Tour.create(req.body);
-  res.status(201).json({
-    success: true,
-    data: {
-      tour: newTour
-    }
-  });
-});
-
+const getAllTours = factory.getAll(Tour);
+const getTour = factory.getOne(Tour, 'reviews');
+const createTour = factory.createOne(Tour);
 const deleteTour = factory.deleteOne(Tour);
 const updateTour = factory.updateOne(Tour);
 
