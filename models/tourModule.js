@@ -22,7 +22,7 @@ mongoose
 
 const tourShema = new mongoose.Schema(
   {
-    _id: String,
+  //  _id: String,
     name: {
       type: String,
       required: [true, 'Please add a tour name'],
@@ -162,11 +162,6 @@ tourShema.pre(/^find/, function(next) {
   next();
 });
 
-tourShema.post(/^find/, function(docs, next) {
-  // console.log(docs);
-  next();
-});
-
 // ! Aggregation middleware
 
 tourShema.pre('aggregate', function(next) {
@@ -175,10 +170,6 @@ tourShema.pre('aggregate', function(next) {
   });
   next();
 });
-// tourShema.post('save', function(doc, next) {
-//   console.log(doc);
-//   next();
-// });
 
 const Tour = mongoose.model('Tour', tourShema);
 
