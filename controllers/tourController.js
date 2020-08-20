@@ -107,8 +107,36 @@ const getDistances = catchAsync(async (req, res, next) => {
   if (!lat || !lng) {
     return next(new AppError('Please provide a langitude & a latitude', 400));
   }
+  const multiplier = unit === 'mi' ? 0.000621371 : 0.001;
+  const distances = await Tour.aggregate([
+    // for the geospatial thre is one single stage: $geoNear
+    {
+      // always needs to be the first one on the pipline
+      $geoNear: {
+        // is the point from which to calculate the distances ( the point we difine here and all startLocation )
+        near: {
+          type: 'Point',
+          coordinates: [lng * 1, lat * 1]
+        },
+        // the field where all the calculated distances will be stored
+        distanceField: 'distance',
+        distanceMultiplier: multiplier
+      }
+    },
+    {
+      $project: {
+        distance: 1,
+        name: 1
+      }
+    }
+  ]);
 
-  await Tour.aggregate([]);
+  res.status(200).send({
+    status: 'success',
+    data: {
+      data: distances
+    }
+  });
 });
 
 module.exports = {
