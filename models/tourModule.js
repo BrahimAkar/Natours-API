@@ -22,7 +22,7 @@ mongoose
 
 const tourShema = new mongoose.Schema(
   {
-  //  _id: String,
+    //  _id: String,
     name: {
       type: String,
       required: [true, 'Please add a tour name'],
@@ -127,7 +127,7 @@ const tourShema = new mongoose.Schema(
 
 tourShema.index({ price: 1, ratingsAverage: -1 });
 tourShema.index({ slug: 1 });
-
+tourShema.index({ startLocation: '2dsphere' });
 tourShema.virtual('durationweeks').get(function() {
   return this.duration / 7;
 });

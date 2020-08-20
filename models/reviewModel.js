@@ -47,10 +47,12 @@ const reviewShema = new mongoose.Schema(
   }
 );
 
+reviewShema.index({ tour: 1, user: 1 }, { unique: true });
+
 reviewShema.pre(/^find/, function(next) {
   this.populate({
     path: 'tour',
-    select: 'name'
+    select: '-guides name'
   }).populate({
     path: 'user',
     select: '-_id name photo'
@@ -88,7 +90,7 @@ reviewShema.statics.calcAverageRatings = async function(tourId) {
 
 reviewShema.post('save', function() {
   // this points to current review
-  this.constructor.calcAverageRatings(this.tour);
+  mongoose.model('Review').calcAverageRatings(this.tour);
 });
 
 //! for this we dont have document middlware, but only query middlware so we dont have direcaccess

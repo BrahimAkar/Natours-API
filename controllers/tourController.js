@@ -78,6 +78,39 @@ const getTourStats = catchAsync(async (req, res, next) => {
   });
 });
 
+const getToursWithin = catchAsync(async (req, res, next) => {
+  console.log(req.params);
+  const { distance, latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+  const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
+  if (!lat || !lng) {
+    return next(new AppError('Please provide a langitude & a latitude', 400));
+  }
+
+  //? geoWithin ==> find documents within a geomitry
+  const tours = await Tour.find({
+    //? mongoose expect Earth's Equatorial Radius
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }
+  });
+  res.status(200).send({
+    results: tours.length,
+    status: 'success',
+    tours
+  });
+  console.log('radius', radius);
+});
+
+const getDistances = catchAsync(async (req, res, next) => {
+  console.log(req.params);
+  const { latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+  if (!lat || !lng) {
+    return next(new AppError('Please provide a langitude & a latitude', 400));
+  }
+
+  await Tour.aggregate([]);
+});
+
 module.exports = {
   createTour,
   getAllTours,
@@ -87,5 +120,7 @@ module.exports = {
   aliasTopTours,
   getAllTests,
   getTourStats,
-  getMonthlyPlan
+  getMonthlyPlan,
+  getToursWithin,
+  getDistances
 };
