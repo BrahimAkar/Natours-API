@@ -64,6 +64,16 @@ app.get('/', (req, res, next) => {
     user: 'Brahim akarouch'
   });
 });
+app.get('/overview', (req, res, next) => {
+  res.status(200).render('overview', {
+    title: 'All tours'
+  });
+});
+app.get('/tour', (req, res, next) => {
+  res.status(200).render('tour', {
+    title: 'The forest tiker'
+  });
+});
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/reviews', reviewRouter);
