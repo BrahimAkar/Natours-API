@@ -3,12 +3,18 @@ const appError = require('./utils/appError');
 const GlobalErrorHandler = require('./controllers/errorController');
 const dotenv = require('dotenv');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 dotenv.config({ path: './config.env' });
 
 const app = express();
-// const fs = require('fs');
-const morgan = require('morgan');
 
+//? Template engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+//? serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+const morgan = require('morgan');
 const tourRouter = require('./routes/toursRoutes');
 const userRouter = require('./routes/usersRoutes');
 const reviewRouter = require('./routes/reviewsRoutes');
@@ -52,29 +58,15 @@ app.use(
     ]
   })
 );
-
+app.get('/', (req, res, next) => {
+  res.status(200).render('base', {
+    tour: 'The forest taker',
+    user: 'Brahim akarouch'
+  });
+});
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/reviews', reviewRouter);
-
-app.set('views', './views');
-app.set('view engine', 'ejs');
-
-const name = {
-  name: 'Brahim Akarouch',
-  approved: true,
-  description:
-    'Im a fullStack web developer, also i can create android apps using flutter, i have a good experience with Adobe pack, like photoshop, illustrator, premier, Xd etc ...',
-  birthay: 'Mar 21, 1995',
-  job: 'Web & Mobile Developer',
-  img:
-    'https://avatars3.githubusercontent.com/u/28510601?s=460&u=2d4b0c1a5e3b2ba6c570f470614cb696a31d2bf3&v=4'
-};
-
-app.get('/home', (req, res) => {
-  console.log(req);
-  res.render('index', { name: name });
-});
 
 app.all('*', (req, res, next) => {
   next(new appError('we cant find this route at the moment', 404));
