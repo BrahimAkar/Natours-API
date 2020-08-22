@@ -22,7 +22,7 @@ mongoose
 
 const tourShema = new mongoose.Schema(
   {
-    //  _id: String,
+    _id: String,
     name: {
       type: String,
       required: [true, 'Please add a tour name'],

@@ -77,10 +77,12 @@ userShema.pre('save', function() {
   this.passwordChangeAt = Date.now() - 1000;
   next();
 });
+
 userShema.pre(/^find/, function(next) {
   this.find({ active: { $ne: false } });
   next();
 });
+
 userShema.methods.correctPassword = async function(
   candidatePassword,
   userPassword
@@ -94,10 +96,8 @@ userShema.methods.changedPasswordAfter = function(JWTTimestamp) {
       this.passwordChangeAt.getTime() / 1000,
       10
     );
-
     return JWTTimestamp < changedTimestamp;
   }
-
   // ! False means NOT CHANGED
   return false;
 };

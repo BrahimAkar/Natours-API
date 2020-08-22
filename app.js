@@ -18,6 +18,7 @@ const morgan = require('morgan');
 const tourRouter = require('./routes/toursRoutes');
 const userRouter = require('./routes/usersRoutes');
 const reviewRouter = require('./routes/reviewsRoutes');
+const viewRouter = require('./routes/viewRoutes');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
@@ -58,22 +59,7 @@ app.use(
     ]
   })
 );
-app.get('/', (req, res, next) => {
-  res.status(200).render('base', {
-    tour: 'The forest taker',
-    user: 'Brahim akarouch'
-  });
-});
-app.get('/overview', (req, res, next) => {
-  res.status(200).render('overview', {
-    title: 'All tours'
-  });
-});
-app.get('/tour', (req, res, next) => {
-  res.status(200).render('tour', {
-    title: 'The forest tiker'
-  });
-});
+app.use('/', viewRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/reviews', reviewRouter);
