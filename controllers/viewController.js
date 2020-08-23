@@ -18,3 +18,8 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     tours
   });
 });
+exports.getLoginForm = catchAsync(async (req, res, next) => {
+  res.status(200).render('login', {
+    title: 'OK'
+  });
+});

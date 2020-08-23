@@ -1,9 +1,10 @@
 doctype html
 html
     head
-        title Natours #{title}
-        link(rel='stylesheet' href='/css/style.css')
-        link(rel="icon" type='image/png' href="/img/favicon.png")
+        block head
+            title Natours #{title}
+            link(rel='stylesheet' href='/css/style.css')
+            link(rel="icon" type='image/png' href="/img/favicon.png")
     body
         // HEADER
         include _header
@@ -13,3 +14,4 @@ html
 
         // Footer
         include _footer
+        script(src='/js/mapbox.js')
