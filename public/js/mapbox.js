@@ -1,6 +1,10 @@
 /* eslint-disable */
 console.log('Hello from chrome!');
-const locations = JSON.parse(document.getElementById('map').dataset.locations);
+
+let locations;
+if (document.getElementById('map')) {
+  locations = JSON.parse(document.getElementById('map').dataset.locations);
+}
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYnJhaGltYWthciIsImEiOiJjazkwZWV5MTQwMHJtM2VsZG1mMXFmbjFkIn0.Z9ywdCfnG_M734c9bfdt-Q';
