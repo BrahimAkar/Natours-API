@@ -1,5 +1,5 @@
 // /* eslint-disable */
-// import axios from 'axios';
+import axios from 'axios';
 // import { showAlert } from './alerts';
 
 // export const login = async (email, password) => {
@@ -37,7 +37,7 @@
 //   }
 // };
 
-const login = async (email, password) => {
+export const login = async (email, password) => {
   console.log('Email', email);
   console.log('Password', password);
   try {
@@ -51,19 +51,11 @@ const login = async (email, password) => {
     });
     console.log(res);
     if (res.data.status === 'success') {
-      window.location.replace('/');
+      window.setTimeout(() => {
+        window.location.assign('/');
+      }, 1500);
     }
   } catch (error) {
-    // console.log(error.response.data);
+    console.log(error.response);
   }
 };
-
-const form = document.querySelector('.form');
-if (form) {
-  document.querySelector('.form').addEventListener('submit', e => {
-    e.preventDefault();
-    const email = document.querySelector('#email').value;
-    const password = document.querySelector('#password').value;
-    login(email, password);
-  });
-}
