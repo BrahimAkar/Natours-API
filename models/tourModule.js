@@ -11,7 +11,8 @@ mongoose
     useCreateIndex: true,
     useFindAndModify: false
   })
-  .then();
+  .then()
+ 
 // mongoose.set('debug', function(coll, method, query, doc) {
 //   //do your thing
 //   console.log(query);

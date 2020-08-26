@@ -14,6 +14,7 @@ const userController = require('../controllers/userController');
 
 route.post('/signup', authController.signup);
 route.post('/login', authController.login);
+route.get('/logout', authController.logout);
 route.post('/forgotpassword', authController.forgotpassword);
 route.patch('/resetpassword/:token', authController.resetpassword);
 
