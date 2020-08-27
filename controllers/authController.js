@@ -232,7 +232,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save();
   // 4) log the user in, send JWT
 
-  res.send({
-    message: 'OK'
-  });
+  createThenSendToke(user, 200, res);
 });
