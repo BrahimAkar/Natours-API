@@ -64,7 +64,7 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
   next();
 });
 

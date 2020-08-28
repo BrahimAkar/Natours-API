@@ -22,7 +22,11 @@ route.patch('/resetpassword/:token', authController.resetpassword);
 route.use(authController.protect);
 
 route.patch('/updatepassword', authController.updatePassword);
-route.patch('/updateMe', userController.updateMe);
+route.patch(
+  '/updateMe',
+  userController.uploadUserPhoto,
+  userController.updateMe
+);
 route.delete('/deleteMe', userController.deleteMe);
 route.get('/me', userController.getMe, userController.getUser);
 
