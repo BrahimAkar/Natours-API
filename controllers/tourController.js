@@ -96,7 +96,6 @@ const updateTour = factory.updateOne(Tour);
 
 const getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = '2020'; // 2021
-  console.log(year);
   const plan = await Tour.aggregate([
     {
       $unwind: '$startDates'
@@ -138,7 +137,6 @@ const getTourStats = catchAsync(async (req, res, next) => {
 });
 
 const getToursWithin = catchAsync(async (req, res, next) => {
-  console.log(req.params);
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
   const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
@@ -156,11 +154,9 @@ const getToursWithin = catchAsync(async (req, res, next) => {
     status: 'success',
     tours
   });
-  console.log('radius', radius);
 });
 
 const getDistances = catchAsync(async (req, res, next) => {
-  console.log(req.params);
   const { latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
   if (!lat || !lng) {

@@ -47,7 +47,6 @@ const resizeUserPhoto = catchAsync(async (req, res, next) => {
 });
 
 const createUser = (req, res) => {
-  console.log('create User');
 };
 const getAllUsers = factory.getAll(User);
 const getUser = factory.getOne(User);

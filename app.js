@@ -20,11 +20,13 @@ const userRouter = require('./routes/usersRoutes');
 const reviewRouter = require('./routes/reviewsRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
+
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookie = require('cookie-parser');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 // app.use(express.static(''));
 
 // Middlewares
@@ -63,9 +65,8 @@ app.use(
     ]
   })
 );
-
+app.use(compression);
 app.use((req, res, next) => {
-  // console.log(req.cookies);
   next();
 });
 

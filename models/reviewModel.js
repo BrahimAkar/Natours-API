@@ -85,7 +85,6 @@ reviewShema.statics.calcAverageRatings = async function(tourId) {
       ratingsAverage: 4.5
     });
   }
-  console.log('stats', stats);
 };
 
 reviewShema.post('save', function() {
@@ -106,7 +105,6 @@ reviewShema.pre(/^findOneAnd/, async function(next) {
 });
 
 reviewShema.post(/^findOneAnd/, async function() {
-  console.log('this  r tour', this.r.tour);
   await this.r.constructor.calcAverageRatings(this.r.tour._id);
 });
 
