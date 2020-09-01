@@ -38,7 +38,6 @@ const resizeUserPhoto = catchAsync(async (req, res, next) => {
   await sharp(req.file.buffer)
     .resize(500, 500)
     .toFormat('jpeg')
-    .rotate(90)
     .jpeg({
       quality: 100
     })

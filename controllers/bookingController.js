@@ -7,8 +7,10 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) get the current booked tour
-  const tour = await Tour.findById(req.params.tourId);
 
+  const tour = await Tour.findById(req.params.tourId);
+  console.log(tour);
+  console.log(tour.price);
   // 2) Create checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -48,7 +50,18 @@ const createBookingCheckout = catchAsync(async (req, res, next) => {
   next();
 });
 
+const createBooking = factory.createOne(Booking);
+const getBooking = factory.getOne(Booking);
+const getAllBooking = factory.getAll(Booking);
+const updateBooking = factory.updateOne(Booking);
+const deleteBooking = factory.deleteOne(Booking);
+
 module.exports = {
   getCheckoutSession,
-  createBookingCheckout
+  createBookingCheckout,
+  createBooking,
+  getBooking,
+  getAllBooking,
+  updateBooking,
+  deleteBooking
 };

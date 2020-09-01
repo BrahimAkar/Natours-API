@@ -1,6 +1,7 @@
 const Tour = require('../models/tourModule');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
+const Booking = require('../models/bookingModel');
 
 exports.getTour = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
@@ -8,7 +9,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
   if (!tour) {
     return next(new AppError('No Document found with that ID', 404));
   }
-  console.log(tour);
   res.status(200).render('tour', {
     tour,
     title: 'The forest tiker'
@@ -32,3 +32,16 @@ exports.getAccount = (req, res, next) => {
     title: 'My account'
   });
 };
+
+exports.getMyTours = catchAsync(async (req, res, next) => {
+  // 1) Find all bookings of this user
+  const bookings = await Booking.find({ user: req.user.id });
+
+  // 2) Find tour with the return Id's
+  const tourIds = bookings.map(el => el.tour._id);
+  const tours = await Tour.find({ _id: { $in: tourIds } });
+  res.status(200).render('overview', {
+    title: 'My booked tours',
+    tours
+  });
+});
