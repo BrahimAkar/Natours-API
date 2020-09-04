@@ -30,6 +30,6 @@ process.on('UnhandledPromiseRejectionWarning', err => {
 process.on('UnhandledPromiseRejection', err => {
   server.close(() => {
     // drna server.close bash n3tiw lw9t l server ttaysali lkhdma likaydir db 3ad ydir process exit ( we give the server time to finish pending or  being handled  requests )
-    process.exit(1);
+    process.exit(0);
   });
 });
