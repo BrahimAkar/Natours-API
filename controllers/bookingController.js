@@ -7,9 +7,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) get the current booked tour
-
   const tour = await Tour.findById(req.params.tourId);
-
   // 2) Create checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
