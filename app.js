@@ -8,10 +8,21 @@ const bodyParser = require('body-parser');
 dotenv.config({ path: './config.env' });
 
 const app = express();
-
 //? Template engine
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
+// implements CORS
+app.use(
+  cors({
+    origin: 'https://www.brahim.com'
+  })
+);
+
+// OPTIONS is like PUT PATCH ETC...
+app.options('*', cors());
+
 //? serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 const morgan = require('morgan');
@@ -26,7 +37,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
-
+const cors = require('cors');
 // app.use(express.static(''));
 
 // Middlewares
@@ -41,6 +52,7 @@ const limiter = rateLimit({
   message: 'Too many requets from this ip, please try again!'
 });
 
+app.use(cors());
 app.use('/api', limiter);
 
 app.post(
