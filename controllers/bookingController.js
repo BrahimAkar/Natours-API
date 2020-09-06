@@ -67,8 +67,8 @@ const webhookCheckout = (req, res, next) => {
 
   if (event.type === 'checkout.session.complete') {
     createBookingCheckout(event.data.object);
-    res.status(200).json({ received: true });
   }
+  res.status(200).json({ received: true });
 };
 
 const createBooking = factory.createOne(Booking);
