@@ -3,6 +3,15 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Booking = require('../models/bookingModel');
 
+exports.alerts = (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking') {
+    res.locals.alert =
+      'Your booking was successful! Please check your email for a confirmation. if your booking doesnt show up here immediatly, Please come back later.';
+  }
+  next();
+};
+
 exports.getTour = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
   const tour = await Tour.findOne({ slug: slug }).populate({ path: 'reviews' });
