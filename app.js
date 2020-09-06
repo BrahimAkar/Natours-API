@@ -25,7 +25,6 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const compression = require('compression');
 
 // app.use(express.static(''));
