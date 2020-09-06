@@ -4,7 +4,7 @@ const GlobalErrorHandler = require('./controllers/errorController');
 const dotenv = require('dotenv');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
-const bodyParser = require('bodyParser');
+const bodyParser = require('body-parser');
 dotenv.config({ path: './config.env' });
 
 const app = express();
