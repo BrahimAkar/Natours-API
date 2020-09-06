@@ -26,3 +26,10 @@ process.on('UnhandledPromiseRejectionWarning', err => {
     process.exit(1);
   });
 });
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM RECEIVER, Shutting down gracefully');
+  server.close(() => {
+    console.log('Process turmination');
+  });
+});
