@@ -18,6 +18,7 @@ const tourRouter = require('./routes/toursRoutes');
 const userRouter = require('./routes/usersRoutes');
 const reviewRouter = require('./routes/reviewsRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
@@ -42,6 +43,11 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
