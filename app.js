@@ -4,6 +4,7 @@ const GlobalErrorHandler = require('./controllers/errorController');
 const dotenv = require('dotenv');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const bodyParser = require('bodyParser');
 dotenv.config({ path: './config.env' });
 
 const app = express();
@@ -45,7 +46,7 @@ app.use('/api', limiter);
 
 app.post(
   '/webhook-checkout',
-  express.raw({ type: 'application/json' }),
+  bodyParser.raw({ type: 'application/json' }),
   bookingController.webhookCheckout
 );
 app.use(express.json({ limit: '10kb' }));
