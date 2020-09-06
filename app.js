@@ -14,11 +14,7 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // implements CORS
-app.use(
-  cors({
-    origin: 'https://www.brahim.com'
-  })
-);
+app.use(cors());
 
 // OPTIONS is like PUT PATCH ETC...
 app.options('*', cors());
